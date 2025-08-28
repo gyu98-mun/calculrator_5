@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculator</title>
+        <link rel="stylesheet" href="style_25.08.23_3.css">
+        <script src="https://cdn.jsdelivr.net/npm/mathjs@11/lib/browser/math.js"></script>
+    </head>
+    <body>
+        <div class="Calculator">
+            <form name="forms">
+                <input type="text" name="output" readonly>
+                <input type="button" class="clear" value="C" onclick="document.forms.output.value =''">
+                <input type="button" class="operator" value="←" onclick="backspace()">
+                <input type="button" class="operator" value="/" onclick="document.forms.output.value+='/'">
+                <input type="button" value="1" onclick="input(1)">
+                <input type="button" value="2" onclick="input(2)">
+                <input type="button" value="3" onclick="input(3)">
+                <input type="button" class="operator" value="*" onclick="document.forms.output.value+='*'">
+                <input type="button" value="4" onclick="input(4)">
+                <input type="button" value="5" onclick="input(5)">
+                <input type="button" value="6" onclick="input(6)">
+                <input type="button" class="operator" value="+" onclick="document.forms.output.value+='+'">
+                <input type="button" value="7" onclick="input(7)">
+                <input type="button" value="8" onclick="input(8)">
+                <input type="button" value="9" onclick="input(9)">
+                <input type="button" class="operator" value="-" onclick="document.forms.output.value+='-'">
+                <input type="button" class="dot"value="." onclick="document.forms.output.value+='.'">
+                <input type="button" value="0" onclick="input(0)">
+                <input type="button" class="operator result" value="=" onclick="result()">
+                <input type="button" class="percent" value="%" onclick="percent()">
+            </form>
+        </div>
+
+        <script>
+
+            function input(i){
+                document.forms.output.value += i
+            }
+
+             function result(){
+                let expr = document.forms.output.value;
+                let result = math.evaluate(expr);
+                document.forms.output.value = result;
+            }
+
+            function backspace() {
+            let out = document.forms.output;
+            out.value = out.value.slice(0, -1);
+            }
+            
+            function percent() {
+                let expr = document.forms.output.value;
+                let operators = ["/", "-", "+", "*"];
+
+                if (expr.slice(-1) != "%") {
+                    let value;
+
+                    if (operators.some(op => expr.includes(op))) {
+                    value = math.evaluate(expr);
+                    } else {
+                    value = parseFloat(expr);
+                }
+
+                let result = (value * 100).toFixed(6);       
+                result = result.replace(/\.?0+$/, "");       
+                document.forms.output.value = result + "%";
+            }
+        }
+
+
+        </script>
+    </body>
+
+</html>
